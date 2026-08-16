@@ -7,6 +7,22 @@ import { Component } from '@angular/core';
   styleUrl: './app.css'
 })
 export class App {
+  navigateTo(sectionId: string): void {
+  this.menuOpen = false;
+
+  setTimeout(() => {
+    const section = document.getElementById(sectionId);
+
+    if (section) {
+      section.scrollIntoView({
+        behavior: 'smooth',
+        block: 'start'
+        
+      });
+    }
+  }, 100);
+}
+  menuOpen = false;
   selectedYear = 2024;
 
   selectYear(year: number): void {
@@ -41,3 +57,4 @@ ${message}
 
   window.open(gmailUrl, '_blank');
   }}
+  
