@@ -1,0 +1,13 @@
+html {
+  scroll-behavior: smooth;
+  background: #030712;
+}
+
+body {
+  margin: 0;
+  background: #030712;
+}
+
+* {
+  box-sizing: border-box;
+}
