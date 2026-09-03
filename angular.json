@@ -7,7 +7,7 @@
   },
   "newProjectRoot": "projects",
   "projects": {
-    "kynt-website": {
+    "kyntcorewebsite-": {
       "projectType": "application",
       "schematics": {},
       "root": "",
