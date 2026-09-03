@@ -56,5 +56,5 @@ ${message}
     `&body=${encodeURIComponent(emailBody)}`;
 
   window.open(gmailUrl, '_blank');
-  }}
-  
+  }
+}
