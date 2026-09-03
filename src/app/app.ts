@@ -1,10 +1,10 @@
 import { Component } from '@angular/core';
-import { CommonModule } from '@angular/common'; // Import CommonModule
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [],
+  imports: [CommonModule],
   templateUrl: './app.html',
   styleUrl: './app.css'
 })
@@ -14,15 +14,10 @@ export class App {
 
   navigateTo(sectionId: string): void {
     this.menuOpen = false;
-
     setTimeout(() => {
       const section = document.getElementById(sectionId);
-
       if (section) {
-        section.scrollIntoView({
-          behavior: 'smooth',
-          block: 'start'
-        });
+        section.scrollIntoView({ behavior: 'smooth', block: 'start' });
       }
     }, 100);
   }
@@ -33,26 +28,20 @@ export class App {
 
   sendMessage(event: Event): void {
     event.preventDefault();
-
     const form = event.target as HTMLFormElement;
-
     const name = (form.elements.namedItem('name') as HTMLInputElement).value;
     const email = (form.elements.namedItem('email') as HTMLInputElement).value;
     const subject = (form.elements.namedItem('subject') as HTMLInputElement).value;
     const message = (form.elements.namedItem('message') as HTMLTextAreaElement).value;
 
     const emailSubject = subject || `Message from ${name}`;
-
     const emailBody = `
 Name: ${name}
 Email: ${email}
+Message: ${message}
+    `.trim();
 
-Message:
-${message}
-  `.trim();
-
-    const gmailUrl =
-      `https://mail.google.com/mail/?view=cm&fs=1` +
+    const gmailUrl = `https://mail.google.com/mail/?view=cm&fs=1` +
       `&to=kynt2026@gmail.com` +
       `&su=${encodeURIComponent(emailSubject)}` +
       `&body=${encodeURIComponent(emailBody)}`;
