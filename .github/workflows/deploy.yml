@@ -39,25 +39,45 @@ jobs:
 
       - name: Build Angular application
         run: |
-          npx ng build \
-            --base-href /kyntcorewebsite/ \
-            --deploy-url /kyntcorewebsite/
+          npx ng build --base-href /kyntcorewebsite/
 
-      - name: Verify build
+      - name: Find Angular output
+        id: find-output
         run: |
-          echo "=== Files ==="
-          find ./dist/browser -maxdepth 2 -type f
+          echo "=== DIST DIRECTORY ==="
+          find ./dist -maxdepth 5 -type f -name "index.html" -print
 
-          echo "=== index.html ==="
-          test -f ./dist/browser/index.html
+          INDEX_FILE=$(find ./dist -type f -name "index.html" | head -1)
 
-          echo "=== Script references ==="
-          grep -oE 'src="[^"]+\.js"' ./dist/browser/index.html || true
+          if [ -z "$INDEX_FILE" ]; then
+            echo "ERROR: index.html was not generated"
+            exit 1
+          fi
+
+          OUTPUT_DIR=$(dirname "$INDEX_FILE")
+
+          echo "Found index.html: $INDEX_FILE"
+          echo "Angular output directory: $OUTPUT_DIR"
+
+          echo "output_dir=$OUTPUT_DIR" >> "$GITHUB_OUTPUT"
+
+      - name: Prepare GitHub Pages
+        run: |
+          rm -rf ./pages
+          mkdir -p ./pages
+
+          cp -R "${{ steps.find-output.outputs.output_dir }}/." ./pages/
+
+          echo "=== PAGES CONTENTS ==="
+          find ./pages -maxdepth 3 -type f -print
+
+          echo "=== CHECK INDEX ==="
+          test -f ./pages/index.html
 
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: ./dist/browser
+          path: ./pages
 
       - name: Deploy to GitHub Pages
         id: deployment
