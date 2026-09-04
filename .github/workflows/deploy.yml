@@ -38,15 +38,12 @@ jobs:
         timeout-minutes: 15
 
       - name: Build Angular application
-        run: |
-          npx ng build --base-href /kyntcorewebsite/
-          echo "=== dist contents ==="
-          find dist -maxdepth 4 -type f | head -100
+        run: npx ng build --base-href /kyntcorewebsite/
 
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: ./dist
+          path: ./dist/kyntcorewebsite/browser
 
       - name: Deploy to GitHub Pages
         id: deployment
