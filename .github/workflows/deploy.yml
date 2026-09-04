@@ -40,10 +40,17 @@ jobs:
       - name: Build Angular application
         run: npx ng build --base-href /kyntcorewebsite/
 
+      - name: Verify build output
+        run: |
+          echo "=== Build output ==="
+          ls -la ./dist/kyntcorewebsite
+          echo "=== index.html ==="
+          test -f ./dist/kyntcorewebsite/index.html
+
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: ./dist/kyntcorewebsite/browser
+          path: ./dist/kyntcorewebsite
 
       - name: Deploy to GitHub Pages
         id: deployment
