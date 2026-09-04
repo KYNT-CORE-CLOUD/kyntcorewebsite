@@ -41,15 +41,18 @@ jobs:
         run: |
           npx ng build \
             --base-href /kyntcorewebsite/ \
-            --output-path ./dist
+            --deploy-url /kyntcorewebsite/
 
-      - name: Verify build output
+      - name: Verify build
         run: |
-          echo "=== BUILD OUTPUT ==="
-          find ./dist/browser -maxdepth 3 -type f -print
+          echo "=== Files ==="
+          find ./dist/browser -maxdepth 2 -type f
 
-          echo "=== CHECK INDEX ==="
+          echo "=== index.html ==="
           test -f ./dist/browser/index.html
+
+          echo "=== Script references ==="
+          grep -oE 'src="[^"]+\.js"' ./dist/browser/index.html || true
 
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3
