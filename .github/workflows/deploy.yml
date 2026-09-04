@@ -45,16 +45,16 @@ jobs:
 
       - name: Verify build output
         run: |
-          echo "=== DIST CONTENTS ==="
-          find ./dist -maxdepth 3 -type f -print
+          echo "=== BUILD OUTPUT ==="
+          find ./dist/browser -maxdepth 3 -type f -print
 
           echo "=== CHECK INDEX ==="
-          test -f ./dist/index.html
+          test -f ./dist/browser/index.html
 
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: ./dist
+          path: ./dist/browser
 
       - name: Deploy to GitHub Pages
         id: deployment
